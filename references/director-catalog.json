@@ -1,0 +1,430 @@
+{
+  "schema_version": 1,
+  "source": "ZY director index",
+  "index_sha256": "sha256:35e1f3230ec3b2a6e2da55543213b97e38113478bc11955ccd9652cedbe351fe",
+  "directors": [
+    {
+      "name": "Zhang Yimou",
+      "aliases": [
+        "张艺谋",
+        "Zhang Yimou",
+        "Zhang",
+        "张导"
+      ],
+      "file": "zhang-yimou.md",
+      "sha256": "sha256:aba71acf707f2fce65cb3d32eb5a89c542b0c35a51832de9e38995736e676599"
+    },
+    {
+      "name": "Jia Zhangke",
+      "aliases": [
+        "贾樟柯",
+        "Jia Zhangke",
+        "Jia",
+        "贾科长"
+      ],
+      "file": "jia-zhangke.md",
+      "sha256": "sha256:9c7d26daf2fca6232f0a4c9c75ba999353a63f8b20ef3680ceb2d94a22972124"
+    },
+    {
+      "name": "Bi Gan",
+      "aliases": [
+        "毕赣",
+        "Bi Gan",
+        "Bi"
+      ],
+      "file": "bi-gan.md",
+      "sha256": "sha256:7ee695b9c3bf2b5c390e5dd509404f2118d9d085717b2ea8e7a651f4697c4a2c"
+    },
+    {
+      "name": "Lou Ye",
+      "aliases": [
+        "娄烨",
+        "Lou Ye",
+        "Lou"
+      ],
+      "file": "lou-ye.md",
+      "sha256": "sha256:6135d197b9d85b73d1876d78f182bd2f9b98b860aea912f81d61bb5ace937047"
+    },
+    {
+      "name": "Diao Yinan",
+      "aliases": [
+        "刁亦男",
+        "Diao Yinan",
+        "Diao"
+      ],
+      "file": "diao-yinan.md",
+      "sha256": "sha256:fd447ecccecc00ebfaa22d202e4f825c86f64981adedb12c6d6d54435566a9ac"
+    },
+    {
+      "name": "Jiang Wen",
+      "aliases": [
+        "姜文",
+        "Jiang Wen",
+        "Jiang"
+      ],
+      "file": "jiang-wen.md",
+      "sha256": "sha256:180d38f4be78c9545942193e719919ffa51320ccd22d0cb763081ffea1aaf41f"
+    },
+    {
+      "name": "King Hu",
+      "aliases": [
+        "胡金铨",
+        "King Hu",
+        "Hu",
+        "King Hu"
+      ],
+      "file": "king-hu.md",
+      "sha256": "sha256:7b7e5f145aaa74819146d5e04398d0260323fe616ed86bd1bac0e375edfaec05"
+    },
+    {
+      "name": "Wong Kar-wai",
+      "aliases": [
+        "王家卫",
+        "Wong Kar-wai",
+        "Wong",
+        "WKW",
+        "王家衛"
+      ],
+      "file": "wong-kar-wai.md",
+      "sha256": "sha256:8e13cc10d4ffcf9f858cf1cdbad42672a28e5b6e015830aaab6616a80738af63"
+    },
+    {
+      "name": "Hou Hsiao-hsien",
+      "aliases": [
+        "侯孝贤",
+        "Hou Hsiao-hsien",
+        "Hou",
+        "侯孝賢"
+      ],
+      "file": "hou-hsiao-hsien.md",
+      "sha256": "sha256:a64a02006f0d3886f0ae26e6e40191009cffbd783ef2dd9308f2aeb8e10a03fa"
+    },
+    {
+      "name": "Edward Yang",
+      "aliases": [
+        "杨德昌",
+        "Edward Yang",
+        "Yang",
+        "楊德昌"
+      ],
+      "file": "edward-yang.md",
+      "sha256": "sha256:f7546b22f72bdaa643ffd5bfb2bbcb0ad5d806e2505acb3b8e0e91c08765c243"
+    },
+    {
+      "name": "Tsai Ming-liang",
+      "aliases": [
+        "蔡明亮",
+        "Tsai Ming-liang",
+        "Tsai",
+        "蔡明亮"
+      ],
+      "file": "tsai-ming-liang.md",
+      "sha256": "sha256:634df0c1e74104096caaf93fb30cd53ef506bcdb9cc653d05eefcb72eed93500"
+    },
+    {
+      "name": "Shunji Iwai",
+      "aliases": [
+        "岩井俊二",
+        "Shunji Iwai",
+        "Iwai"
+      ],
+      "file": "shunji-iwai.md",
+      "sha256": "sha256:8590d72987abc32d36278d3517effcfb252b39e7ed315bce5ad3890eed5c0a47"
+    },
+    {
+      "name": "Akira Kurosawa",
+      "aliases": [
+        "黑泽明",
+        "Akira Kurosawa",
+        "Kurosawa",
+        "黑澤明"
+      ],
+      "file": "akira-kurosawa.md",
+      "sha256": "sha256:75175d47baa2f7190859c34a939ce283e5bae9f9ade7c60dc900d2d70e7b39bb"
+    },
+    {
+      "name": "Yasujiro Ozu",
+      "aliases": [
+        "小津安二郎",
+        "Yasujiro Ozu",
+        "Yasujirō Ozu",
+        "Ozu",
+        "小津"
+      ],
+      "file": "yasujiro-ozu.md",
+      "sha256": "sha256:82a8f7470935edc8e94ebd181607460cf54c4b868d46eb489e4d8a433e5b5a95"
+    },
+    {
+      "name": "Hirokazu Kore-eda",
+      "aliases": [
+        "是枝裕和",
+        "Hirokazu Kore-eda",
+        "Kore-eda",
+        "Koreeda",
+        "是枝"
+      ],
+      "file": "hirokazu-koreeda.md",
+      "sha256": "sha256:c7e3252971166e0b91b29f230b19f6ad9f99b0a8aef8cb31722524ee971486e0"
+    },
+    {
+      "name": "Kiyoshi Kurosawa",
+      "aliases": [
+        "黑泽清",
+        "Kiyoshi Kurosawa",
+        "K. Kurosawa",
+        "黑澤清"
+      ],
+      "file": "kiyoshi-kurosawa.md",
+      "sha256": "sha256:6e3f982a2c6a0522706d891ef24499e8d86468c9d601b005ea540a90b14702e2"
+    },
+    {
+      "name": "Bong Joon-ho",
+      "aliases": [
+        "奉俊昊",
+        "Bong Joon-ho",
+        "Bong",
+        "奉俊浩"
+      ],
+      "file": "bong-joon-ho.md",
+      "sha256": "sha256:2087d3e722389f46eb373aa206a52649c123271c856ee5342e3201ee1c71bc17"
+    },
+    {
+      "name": "Park Chan-wook",
+      "aliases": [
+        "朴赞郁",
+        "Park Chan-wook",
+        "Park",
+        "朴贊郁"
+      ],
+      "file": "park-chan-wook.md",
+      "sha256": "sha256:c74fbdbbda8e9f050059e468f8cb7fa6c23ce3c5c7dd26af43e2bea3a1a8333d"
+    },
+    {
+      "name": "Lee Chang-dong",
+      "aliases": [
+        "李沧东",
+        "Lee Chang-dong",
+        "Lee",
+        "李滄東"
+      ],
+      "file": "lee-chang-dong.md",
+      "sha256": "sha256:390f94bb2de011821cc17b8550011b86cbc11441cf3bd802d1399df921ca4c86"
+    },
+    {
+      "name": "Apichatpong Weerasethakul",
+      "aliases": [
+        "阿彼察邦·韦拉斯哈古",
+        "Apichatpong Weerasethakul",
+        "Apichatpong",
+        "Joe"
+      ],
+      "file": "apichatpong-weerasethakul.md",
+      "sha256": "sha256:afdb923c56a9a73911754e52261411052838012fabc3c676c5504fc4fffd70a3"
+    },
+    {
+      "name": "Andrei Tarkovsky",
+      "aliases": [
+        "安德烈·塔可夫斯基",
+        "Andrei Tarkovsky",
+        "Tarkovsky",
+        "塔可夫斯基"
+      ],
+      "file": "andrei-tarkovsky.md",
+      "sha256": "sha256:fbbb65ff6650f12d7e8b30d1798c3f6c0dae6b2e1bce681d4bb67f4f9c1176d5"
+    },
+    {
+      "name": "Stanley Kubrick",
+      "aliases": [
+        "斯坦利·库布里克",
+        "Stanley Kubrick",
+        "Kubrick",
+        "库布里克"
+      ],
+      "file": "stanley-kubrick.md",
+      "sha256": "sha256:5b4df3736747d00596025c11db53515855954afd2fd2c9f3527c7f2739435a35"
+    },
+    {
+      "name": "Alfred Hitchcock",
+      "aliases": [
+        "阿尔弗雷德·希区柯克",
+        "Alfred Hitchcock",
+        "Hitchcock",
+        "希区柯克"
+      ],
+      "file": "alfred-hitchcock.md",
+      "sha256": "sha256:d67f56f3fd752eb95f4e4e21a49e5a5224b260be05f758fe7315173e7defa2f8"
+    },
+    {
+      "name": "Ingmar Bergman",
+      "aliases": [
+        "英格玛·伯格曼",
+        "Ingmar Bergman",
+        "Bergman",
+        "伯格曼"
+      ],
+      "file": "ingmar-bergman.md",
+      "sha256": "sha256:54229d1a6e950e1d06a337acd6f4649653bd8770d6bc9c358059b4f42320b3bb"
+    },
+    {
+      "name": "David Fincher",
+      "aliases": [
+        "大卫·芬奇",
+        "David Fincher",
+        "Fincher",
+        "芬奇"
+      ],
+      "file": "david-fincher.md",
+      "sha256": "sha256:70d598da238f77c70535c9476e7acd102b7cb167ff43d42ac55248ca9c75e1d6"
+    },
+    {
+      "name": "David Lynch",
+      "aliases": [
+        "大卫·林奇",
+        "David Lynch",
+        "Lynch",
+        "林奇"
+      ],
+      "file": "david-lynch.md",
+      "sha256": "sha256:c0fa177a3204c36148fbe63fc5da77da43cc13119061af04b90446e19d61cdea"
+    },
+    {
+      "name": "Martin Scorsese",
+      "aliases": [
+        "马丁·斯科塞斯",
+        "Martin Scorsese",
+        "Scorsese",
+        "Marty",
+        "斯科塞斯"
+      ],
+      "file": "martin-scorsese.md",
+      "sha256": "sha256:69481877fc9fb3d2708163adabd6f63a6a1b47f3956496d6526bbdc49e2c9bb2"
+    },
+    {
+      "name": "Francis Ford Coppola",
+      "aliases": [
+        "弗朗西斯·福特·科波拉",
+        "Francis Ford Coppola",
+        "Coppola",
+        "科波拉"
+      ],
+      "file": "francis-ford-coppola.md",
+      "sha256": "sha256:2ea8431b050e1d251faec57c5c8f6f638abbada5f21cc432db47e3663353462c"
+    },
+    {
+      "name": "Brian De Palma",
+      "aliases": [
+        "布莱恩·德·帕尔玛",
+        "Brian De Palma",
+        "De Palma",
+        "DePalma",
+        "德·帕尔玛"
+      ],
+      "file": "brian-de-palma.md",
+      "sha256": "sha256:a69bc1b7efdf3fd1d0be1eeda19102d16e208a30a65ecb70d460a875921df0c2"
+    },
+    {
+      "name": "Michael Mann",
+      "aliases": [
+        "迈克尔·曼",
+        "Michael Mann",
+        "Mann",
+        "迈克尔曼"
+      ],
+      "file": "michael-mann.md",
+      "sha256": "sha256:dfce2c15116eacdc5c68ac25dbc60c759924a020aff3251f7fc080f5028c61c7"
+    },
+    {
+      "name": "Paul Thomas Anderson",
+      "aliases": [
+        "保罗·托马斯·安德森",
+        "Paul Thomas Anderson",
+        "PTA",
+        "P. T. Anderson"
+      ],
+      "file": "paul-thomas-anderson.md",
+      "sha256": "sha256:140367b5238af7b0be71448345ffe7e957ac3f04354a587e258b6f6f947ecf59"
+    },
+    {
+      "name": "Wes Anderson",
+      "aliases": [
+        "韦斯·安德森",
+        "Wes Anderson",
+        "Wes",
+        "W. Anderson"
+      ],
+      "file": "wes-anderson.md",
+      "sha256": "sha256:7ee53e6eec97b01f5b1286c6df10324cc2c1dc80175034a19e6ade56d42b42cd"
+    },
+    {
+      "name": "Robert Eggers",
+      "aliases": [
+        "罗伯特·艾格斯",
+        "Robert Eggers",
+        "Eggers",
+        "艾格斯"
+      ],
+      "file": "robert-eggers.md",
+      "sha256": "sha256:7ea10b7676b07ad59c95e6f67fc7e94aaebcc88249e28489bcedef09bc5325b7"
+    },
+    {
+      "name": "Christopher Nolan",
+      "aliases": [
+        "克里斯托弗·诺兰",
+        "Christopher Nolan",
+        "Nolan",
+        "诺兰"
+      ],
+      "file": "christopher-nolan.md",
+      "sha256": "sha256:811e9c86eef6240b49ab56f4252df847d9ea75688660f739b1d3fbca14c7354a"
+    },
+    {
+      "name": "Denis Villeneuve",
+      "aliases": [
+        "丹尼斯·维伦纽瓦",
+        "Denis Villeneuve",
+        "Villeneuve",
+        "维伦纽瓦"
+      ],
+      "file": "denis-villeneuve.md",
+      "sha256": "sha256:3a5a7cc22fdac4134b1fd12af95132345b7df1c778472f9a8fbf07eafe70c9d5"
+    },
+    {
+      "name": "Terrence Malick",
+      "aliases": [
+        "泰伦斯·马力克",
+        "Terrence Malick",
+        "Malick",
+        "马力克"
+      ],
+      "file": "terrence-malick.md",
+      "sha256": "sha256:153fa49edc6a15f4b30f632251a473503be6637b8689a69cc2cc82470f265548"
+    },
+    {
+      "name": "Alfonso Cuarón",
+      "aliases": [
+        "阿方索·卡隆",
+        "Alfonso Cuarón",
+        "Alfonso Cuaron",
+        "Cuarón",
+        "Cuaron",
+        "卡隆"
+      ],
+      "file": "alfonso-cuaron.md",
+      "sha256": "sha256:0937d76e273305bc6557bf8db1033f2cfebcaeb6cded69f196abce1e8f6b4072"
+    },
+    {
+      "name": "Chloé Zhao",
+      "aliases": [
+        "赵婷",
+        "Chloé Zhao",
+        "Chloe Zhao",
+        "Zhao",
+        "赵导"
+      ],
+      "file": "chloe-zhao.md",
+      "sha256": "sha256:e246bce03c5aa1a758cae33eeaa1708bcd2d55c89b12ee695cc675c8c234d185"
+    }
+  ],
+  "selection_policy": "基础剧组设计先行；按叙事目标选择主导演，不按镜头随机轮换",
+  "style_quality_verified": false
+}

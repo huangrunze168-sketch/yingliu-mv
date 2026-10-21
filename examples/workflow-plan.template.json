@@ -1,0 +1,138 @@
+{
+  "project_id": "替换为项目绝对路径",
+  "output_name": "final_mv.mp4",
+  "submission": "state/submission.json",
+  "note": "按实际输入填写commands和稳定的inputs；空commands等待有效材料。每步机检后强制等待独立workflow_step签名批准，未经同意不进入下一步，第12步也须批准。私钥和启动信任配置必须在Agent权限之外；详见references/workflow-approval-locks.md。",
+  "steps": [
+    {
+      "step": 1,
+      "name": "歌词与时间轴",
+      "inputs": [],
+      "outputs": [
+        "state/timeline.json",
+        "gates/gate1.json",
+        "state/executions/gate1.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 2,
+      "name": "音乐分析与导演提案",
+      "inputs": [],
+      "outputs": [
+        "state/style.json",
+        "state/music_structure.json",
+        "state/style_review.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 3,
+      "name": "人物与参考职责",
+      "inputs": [],
+      "outputs": [
+        "state/reference_roles.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 4,
+      "name": "电影镜头组织与剧组连续性",
+      "inputs": [],
+      "outputs": [
+        "state/story_plan.json",
+        "state/development.json",
+        "state/storyboard.json",
+        "state/sequence_direction.json",
+        "state/organization_structure.json",
+        "state/director_execution.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 5,
+      "name": "逐镜提示词与剪辑预演",
+      "inputs": [],
+      "outputs": [
+        "state/storyboard.json",
+        "gates/gate5.json",
+        "gates/crew_pipeline.json",
+        "gates/crew_rehearsal.json",
+        "state/animatic_review.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 6,
+      "name": "音乐窗口与口型安排",
+      "inputs": [],
+      "outputs": [
+        "gates/gate6.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 7,
+      "name": "静帧与代表样片",
+      "inputs": [],
+      "outputs": [
+        "state/visual_assets.json",
+        "state/director_review.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 8,
+      "name": "批量提交",
+      "inputs": [],
+      "outputs": [
+        "state/batch_queue.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 9,
+      "name": "返修",
+      "inputs": [],
+      "outputs": [
+        "state/repair_assessment.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 10,
+      "name": "素材选段与全片审片",
+      "inputs": [],
+      "outputs": [
+        "state/edit_assembly.json",
+        "state/reviews/full_sequence.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 11,
+      "name": "技术验收与交付",
+      "inputs": [],
+      "outputs": [
+        "state/deliveries/final_mv.mp4.json",
+        "state/delivery_packages/final_mv.mp4.json"
+      ],
+      "commands": []
+    },
+    {
+      "step": 12,
+      "name": "复盘与发布",
+      "inputs": [],
+      "outputs": [
+        "state/retrospective.json",
+        "state/regression_execution.json"
+      ],
+      "commands": []
+    }
+  ],
+  "creative_workflow": {
+    "film_grammar_required": true,
+    "reference_mode": "creative_advisory",
+    "organization_order": 2
+  }
+}

@@ -1,0 +1,4 @@
+# Python 3.12；模型由 --model-path 显式指定，不自动下载。
+faster-whisper==1.2.1
+av==12.3.0
+ctranslate2==4.8.3

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>{{GATE_TITLE}}</title>
+<style>
+  :root { color-scheme: dark; }
+  body { background:#141414; color:#e8e4da; font-family:"Microsoft YaHei",sans-serif; margin:0; padding:32px; }
+  .card { max-width:960px; margin:0 auto; background:#1d1d1d; border:1px solid #333; border-radius:12px; padding:28px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .sub { color:#9a958a; font-size:12px; margin-bottom:16px; }
+  .badge { display:inline-block; padding:3px 12px; border-radius:999px; font-size:13px; font-weight:bold; }
+  .pass { background:#1e3a24; color:#7ddb8a; border:1px solid #2f6b3c; }
+  .fail { background:#3a1e1e; color:#ff8a80; border:1px solid #6b2f2f; }
+  .count { margin-left:12px; color:#c8a86b; font-size:14px; }
+  table { width:100%; border-collapse:collapse; margin-top:16px; font-size:13px; }
+  th, td { border-bottom:1px solid #2c2c2c; padding:8px 10px; text-align:left; }
+  th { color:#9a958a; font-weight:normal; }
+  td.ok { color:#7ddb8a; } td.no { color:#ff8a80; font-weight:bold; }
+  .fix { color:#c8a86b; font-size:12px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>{{GATE_TITLE}} <span class="badge {{STATUS_CLASS}}">{{STATUS_TEXT}}</span><span class="count">机检 {{PASSED}}/{{TOTAL}}</span></h1>
+  <div class="sub">项目：{{PROJECT}} · 生成时间：{{TIMESTAMP}} · 机检器：scripts/gate_checks.py</div>
+  <table>
+    <tr><th>对象</th><th>检查项</th><th>结果</th><th>证据</th></tr>
+    {{ROWS}}
+  </table>
+  {{FAILED_NOTES}}
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "source": "lovart/out/v10-crew-pull/CREW_PULL_REPORT.md",
+  "note": "《笼》v10 剧组拉片情绪结论；接入 state/director_review.json 的 crew_emotion_pull",
+  "segments": [
+    {"start_sec": 0.0, "end_sec": 33.0, "verdict": "KEEP", "reason": "坠入/笼压成立"},
+    {"start_sec": 33.0, "end_sec": 45.0, "verdict": "KEEP", "reason": "起唱肖像挂钩对"},
+    {"start_sec": 45.0, "end_sec": 52.0, "verdict": "KEEP", "reason": "笼景母题展示好"},
+    {"start_sec": 52.0, "end_sec": 60.0, "verdict": "PARTIAL", "priority": "P1", "regen_required": true, "reason": "识破/泡沫破几乎未见"},
+    {"start_sec": 60.0, "end_sec": 90.0, "verdict": "REGEN", "priority": "P0", "reason": "缺悬崖假自由→回笼，水下栏中打转"},
+    {"start_sec": 90.0, "end_sec": 109.4, "verdict": "REGEN", "priority": "P0", "reason": "缺烛厅暖冷空间+双笼并置"},
+    {"start_sec": 109.4, "end_sec": 119.04, "verdict": "KEEP", "reason": "近脸收束+余韵可留"}
+  ]
+}

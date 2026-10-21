@@ -1,0 +1,2 @@
+# Python 3.12，本地视频分析，无API密钥。独立环境安装。
+scenedetect[opencv]>=0.6.7,<0.8
