@@ -14,6 +14,53 @@
 
 该组件为 **CC BY-NC 4.0**（含非商业限制），署名与来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；商业使用需另行取得上游授权。
 
+## 工作流程
+
+六阶段串行推进，每阶段只读当前阶段的输入包；上一阶段的审批失效时回到受影响阶段复核，不自动重做素材。
+
+```mermaid
+flowchart LR
+    A[prepare 准备] --> B[concept 创意]
+    B --> C[storyboard 分镜]
+    C --> D[pilot 样片]
+    D --> E[production 制作]
+    E --> F[delivery 交付]
+    C -.强制.-> Z[ZY 方法库<br/>design.json method]
+```
+
+| 阶段 | 做什么 | 阶段产物 | 通过条件 |
+|---|---|---|---|
+| prepare | 放入原曲与歌词，填 `project.json`，声明实际工具能力 | `project.json`、`input/` | 用户确认准备产物 |
+| concept | 分析歌曲与歌词，写创意方向；用已有对齐工具或人工逐行复核建立时间轴 | `concept.json`、`timeline.json`（含 `evidence_path`） | `timeline.verified` 为真实复核，用户确认 |
+| storyboard | **必须按 ZY 方法库构造逐镜**，写入 `design.json`，编译并出带原曲预演 | `design.json`、`prompts/`、`animatic_preview.mp4` | 完整预演动态审查 + 用户确认 |
+| pilot | 选用户已有素材，或经授权生成代表样片，实际观察 | `pilot_review.json`、`clips/pilot.mp4` | 样片审查通过 + 用户确认 |
+| production | 每段视频入 `clips`，登记来源与费用，填选段清单与逐段审查 | `edit.json`、`clips_review.json`、`jobs.json` | 逐段审查通过 + 用户确认 |
+| delivery | 正式合成，完整有声审查，出交付报告 | `final_mv.mp4`、`delivery_report.json` | `audiovisual` 审查 + 用户确认 |
+
+### 三个硬闸门
+
+1. **ZY 方法闸**：`design.json` 必须声明 `"method": "zy-cinematic-realism"`，否则 `compile`、`render --mode preview`、`pack --shot` 直接阻断。
+2. **时间轴闸**：`timeline.verified` 必须对应真实复核，且 `evidence_path` 指向的原始依据文件存在且非空；不能靠改 `verified` 绕过。
+3. **审批闸**：`approve` 把确认声明绑定到当前阶段文件、引用素材与观察版本；相关文件一变，审批即失效。
+
+### 命令时序
+
+```powershell
+python scripts/mv.py init     ../我的MV     # 建项目（不覆盖已有目录）
+python scripts/mv.py status   ../我的MV     # 查当前阶段与待补项
+python scripts/mv.py pack     ../我的MV     # 取当前阶段输入包
+# …按 pack 列出的文档完成本阶段产物，交由用户确认…
+python scripts/mv.py approve  ../我的MV --reviewer "用户" --evidence "确认原文"
+python scripts/mv.py compile  ../我的MV     # 展开 design.json → prompts/
+python scripts/mv.py render   ../我的MV --mode preview
+python scripts/mv.py frames   ../我的MV --media clips/pilot.mp4 --count 8
+python scripts/mv.py observe  ../我的MV --record state/drafts/observe.json
+python scripts/mv.py render   ../我的MV --mode final
+python scripts/mv.py report   ../我的MV
+```
+
+`render` 不会自动批准，也不会自动调用生成后端；`approve` 只登记用户确认，不认证观看真实性。
+
 ## 使用
 
 需要 Python 3.10+；抽帧、预演和合成需要 PATH 中的 FFmpeg/FFprobe。核心状态管理只用 Python 标准库。Agent 视觉、ASR、图片/视频生成使用用户已有工具，供应商费用另计。

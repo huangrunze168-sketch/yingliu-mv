@@ -7,7 +7,8 @@
 - `state/design.json` 未声明 `"method": "zy-cinematic-realism"` 时，`compile`、`render --mode preview`、`pack --shot` 直接抛错阻断；已加入对应单元测试。
 - `python -X utf8 -m unittest discover -s tests -v`：全部通过。
 - `python scripts/mv.py doctor --smoke`：local_ready=true，issues=0。
-- 重新打包 `dist/yingliu-mv-v1.0.4.zip` 并重跑 ZIP 隔离安装演练。
+- 重新打包 `dist/yingliu-mv-v1.0.4.zip` 并重跑 ZIP 隔离安装演练：`status=passed`，13 项检查全部通过，62 条命令，8 秒 / 192 帧成片，母带逐样本哈希一致；安装副本含 vendor 77 文件。
+- README 补充六阶段流程图、阶段产物表、三个硬闸门与命令时序后重打包复验，结论不变；`dist/` 只保留 1.0.4 分发包。
 
 ## 1.0.3 验证
 
