@@ -1,4 +1,5 @@
 {
+  "method": "zy-cinematic-realism",
   "global": {
     "character": "人物身份以用户原图为准",
     "wardrobe": "服装按人物参考锁定",

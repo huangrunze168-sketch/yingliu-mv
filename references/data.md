@@ -15,7 +15,7 @@
 | state/jobs.json | jobs（真实任务与离线费用记录） |
 | state/final_review.json | 审查结构；要求 audiovisual 观察 |
 
-design 每镜必填 id、scene、start、end、action、camera、cut_reason、lip_sync；image 是预演图片路径。允许 blocking、lighting、performance、sound、continuity、before、after 等补充字段。镜头必须连续覆盖 timeline.duration；scene 必须存在，镜头 ID 唯一。global/scenes 是对象，字段由创作需求决定。
+design 顶层必须声明 `"method": "zy-cinematic-realism"`（按 ZY 方法库完成；未声明时 compile、render --mode preview、pack --shot 直接阻断）。每镜必填 id、scene、start、end、action、camera、cut_reason、lip_sync；image 是预演图片路径。允许 blocking、lighting、performance、sound、continuity、before、after 等补充字段。镜头必须连续覆盖 timeline.duration；scene 必须存在，镜头 ID 唯一。global/scenes 是对象，字段由创作需求决定。
 
 审查 decision=approve，evidence 非空、unverified=[]、引用的 observations 当前有效才通过。observations 为 observe 输出的项目相对路径。animatic/pilot/clips 需要 full_video 或 audiovisual；最终审查需要 audiovisual。
 

@@ -54,7 +54,8 @@ class WorkflowTests(unittest.TestCase):
 
     def test_compile_and_pack(self):
         self.prepare()
-        self.put('state/design.json', {'global': {'wardrobe': '黑衣'}, 'scenes': {'A': {'lighting': '侧光'}},
+        self.put('state/design.json', {'method': 'zy-cinematic-realism',
+            'global': {'wardrobe': '黑衣'}, 'scenes': {'A': {'lighting': '侧光'}},
             'shots': [{'id': 'SH001', 'scene': 'A', 'start': 0, 'end': 2, 'action': '转身',
                        'camera': '近景', 'cut_reason': '动作完成', 'lip_sync': False}]})
         self.assertEqual(mv.compile_prompts(self.project)['compiled'], 1)
@@ -65,6 +66,13 @@ class WorkflowTests(unittest.TestCase):
             mv.windows([{'start': 0, 'end': 1}, {'start': 1.1, 'end': 2}], 2)
         with self.assertRaises(ValueError):
             mv.number(float('nan'))
+        # 缺少 ZY 方法声明时，编译必须阻断。
+        self.put('state/design.json', {'global': {}, 'scenes': {'A': {}}, 'shots': [
+            {'id': 'SH001', 'scene': 'A', 'start': 0, 'end': 2, 'action': '转身',
+             'camera': '近景', 'cut_reason': '动作完成', 'lip_sync': False}]})
+        with self.assertRaises(ValueError) as blocked:
+            mv.compile_prompts(self.project)
+        self.assertIn('zy-cinematic-realism', str(blocked.exception))
 
     def observation(self, media, scope='audiovisual', refs=None):
         path = self.project / 'state/draft_observation.json'
@@ -130,7 +138,7 @@ class WorkflowTests(unittest.TestCase):
         # 修改全片配置后重新确认其依赖阶段。
         mv.approve(p, '测试用户', '新画幅准备确认')
         mv.approve(p, '测试用户', '新画幅创意确认')
-        self.put('state/design.json', {'global': {}, 'scenes': {'A': {}}, 'shots': [
+        self.put('state/design.json', {'method': 'zy-cinematic-realism', 'global': {}, 'scenes': {'A': {}}, 'shots': [
             {'id': 'SH001', 'scene': 'A', 'start': 0, 'end': 2, 'image': 'input/scene.png',
              'action': '静止测试', 'camera': '固定', 'cut_reason': '结束', 'lip_sync': False}]})
         mv.compile_prompts(p)

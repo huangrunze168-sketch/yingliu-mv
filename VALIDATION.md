@@ -1,6 +1,15 @@
 # 验证记录
 
-日期：2026-10-22。版本：1.0.3（在 1.0.2 基础上接回 ZY 方法库并适配 `design.json`）。
+日期：2026-10-22。版本：1.0.4（在 1.0.3 基础上把 ZY 方法库改为强制环节）。
+
+## 1.0.4 验证
+
+- `state/design.json` 未声明 `"method": "zy-cinematic-realism"` 时，`compile`、`render --mode preview`、`pack --shot` 直接抛错阻断；已加入对应单元测试。
+- `python -X utf8 -m unittest discover -s tests -v`：全部通过。
+- `python scripts/mv.py doctor --smoke`：local_ready=true，issues=0。
+- 重新打包 `dist/yingliu-mv-v1.0.4.zip` 并重跑 ZIP 隔离安装演练。
+
+## 1.0.3 验证
 
 ## 1.0.3 验证
 

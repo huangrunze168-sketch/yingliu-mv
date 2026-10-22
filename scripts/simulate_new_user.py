@@ -133,7 +133,8 @@ class Simulation:
                           '-frames:v', '1', self.project / picture], label=f'提取关键帧{i+1}')
             shots.append({'id': f'SH{i+1:03}', 'scene': 'TEST', 'start': boundaries[i], 'end': boundaries[i+1],
                           'image': picture, 'action': '测试图运动', 'camera': '固定机位', 'cut_reason': '测试分段切点', 'lip_sync': False})
-        save(self.project / 'state/design.json', {'global': {'style': '离线合成测试'}, 'scenes': {'TEST': {}}, 'shots': shots})
+        save(self.project / 'state/design.json', {'method': 'zy-cinematic-realism',
+            'global': {'style': '离线合成测试'}, 'scenes': {'TEST': {}}, 'shots': shots})
         self.cli('compile')
         self.cli('pack', '--shot', 'SH003')
         self.cli('render', '--mode', 'preview')

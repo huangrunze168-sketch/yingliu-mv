@@ -23,7 +23,7 @@ description: 使用用户 Agent 自带视觉，从歌曲和参考素材制作音
 |---|---|---|
 | prepare | [数据格式](references/data.md) | 原曲、歌词、项目配置与素材清单 |
 | concept | [创意与分镜](references/creative.md) | 时间轴、创意提案 |
-| storyboard | [创意与分镜](references/creative.md)、[ZY 集成](references/zy-cinematic-integration.md)（需电影化构造时） | 权威设计、带原曲预演 |
+| storyboard | [创意与分镜](references/creative.md)、[ZY 集成](references/zy-cinematic-integration.md)（必读） | 权威设计、带原曲预演 |
 | pilot | [视觉与生成](references/vision-generation.md)、同上 ZY 集成 | 真实观察、样片、样片审查 |
 | production | 同上 | 选段清单、逐段审查与费用记录 |
 | delivery | [剪辑与交付](references/delivery.md) | 成片、技术信息、最终审查及交付报告 |

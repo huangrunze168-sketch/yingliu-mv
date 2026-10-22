@@ -16,6 +16,8 @@ try:
 except ImportError:
     from dependencies import doctor
 
+ZY_METHOD = 'zy-cinematic-realism'
+
 ROOT = Path(__file__).resolve().parents[1]
 STAGES = ('prepare', 'concept', 'storyboard', 'pilot', 'production', 'delivery')
 FILES = {
@@ -99,7 +101,7 @@ def init(project, simulation=False):
     for folder in ('input', 'state/observations', 'clips', 'output', 'prompts'):
         (project / folder).mkdir(parents=True, exist_ok=True)
     write(project / 'project.json', {
-        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.3', 'simulation': simulation,
+        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.4', 'simulation': simulation,
         'audio': 'input/song.wav', 'lyrics': 'input/lyrics.txt', 'width': 1280, 'height': 720, 'fps': 24,
         'backend': None, 'budget': {'amount': None, 'currency': None}, 'authorization': '',
         'agent_capabilities': {'image': 'unknown', 'video': 'unknown', 'audio': 'unknown'},
@@ -108,7 +110,7 @@ def init(project, simulation=False):
     defaults = {
         'timeline': {'duration': 0, 'verified': False, 'evidence_path': '', 'segments': []},
         'concept': {'treatment': '', 'visual_direction': '', 'music_sections': []},
-        'design': {'global': {}, 'scenes': {}, 'shots': []},
+        'design': {'method': '', 'global': {}, 'scenes': {}, 'shots': []},
         'animatic_review': review, 'pilot_review': review, 'final_review': review,
         'clips_review': {'reviews': []}, 'edit': {'clips': []}, 'jobs': {'jobs': []}, 'approvals': {},
     }
@@ -144,6 +146,11 @@ def timeline(project):
 
 def design(project):
     data = read(project / 'state/design.json')
+    if data.get('method') != ZY_METHOD:
+        raise ValueError(
+            '设计须按 ZY 方法库完成：在 state/design.json 顶层声明 "method": "%s"，'
+            '并参照 references/zy-cinematic-integration.md 逐镜填写；缺少声明时不能编译、预演或按镜打包'
+            % ZY_METHOD)
     if not isinstance(data['global'], dict) or not isinstance(data['scenes'], dict):
         raise ValueError('global/scenes 须为对象')
     windows(data['shots'], timeline(project)['duration'])
