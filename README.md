@@ -2,7 +2,7 @@
 
 技能名 `yingliu-mv`。本仓库已用映流 MV v1.0.5 完整替换旧版工作流，旧内容可从 Git 历史恢复。新版不依赖旧工作流、Qwen、模型权重或凭证；ZY 方法库已作为设计阶段的必需环节内置在 `vendor/zy-cinematic-realism/`（见下节）。
 
-[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.5.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md)
+[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.5.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md) · [更新记录](CHANGELOG.md)
 
 优先下载上面的 Skill ZIP，解压后目录名为 `yingliu-mv`。GitHub 的 Download ZIP 是源码归档，若用于安装请把解压根目录改名为 `yingliu-mv`。离线演练的 `--archive` 参数使用 dist 中的 Skill ZIP。
 
