@@ -1,8 +1,8 @@
 # 映流 MV · Agent 原生视觉工作流
 
-技能名 `yingliu-mv`。本仓库已用映流 MV v1.0.4 完整替换旧版工作流，旧内容可从 Git 历史恢复。新版不依赖旧工作流、Qwen、模型权重或凭证；ZY 方法库已作为设计阶段的必需环节内置在 `vendor/zy-cinematic-realism/`（见下节）。
+技能名 `yingliu-mv`。本仓库已用映流 MV v1.0.5 完整替换旧版工作流，旧内容可从 Git 历史恢复。新版不依赖旧工作流、Qwen、模型权重或凭证；ZY 方法库已作为设计阶段的必需环节内置在 `vendor/zy-cinematic-realism/`（见下节）。
 
-[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.4.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md)
+[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.5.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md)
 
 优先下载上面的 Skill ZIP，解压后目录名为 `yingliu-mv`。GitHub 的 Download ZIP 是源码归档，若用于安装请把解压根目录改名为 `yingliu-mv`。离线演练的 `--archive` 参数使用 dist 中的 Skill ZIP。
 
@@ -16,26 +16,30 @@
 
 ## 工作流程
 
-六阶段串行推进，每阶段只读当前阶段的输入包；上一阶段的审批失效时回到受影响阶段复核，不自动重做素材。
+六步，前四步由 Agent 与你协作完成，第五步你选模型，第六步出片。
 
 ```mermaid
 flowchart LR
-    A[prepare 准备] --> B[concept 创意]
-    B --> C[storyboard 分镜]
-    C --> D[pilot 样片]
-    D --> E[production 制作]
-    E --> F[delivery 交付]
-    C -.强制.-> Z[ZY 方法库<br/>design.json method]
+    S1[1 提供素材] --> S2[2 需求分析]
+    S2 --> S3[3 对标拆解]
+    S3 --> S4[4 ZY 全能参考提示词]
+    S4 --> S5[5 选模型生成]
+    S5 --> S6[6 成片交付]
+    S4 -.强制.-> Z[ZY 方法库<br/>design.json method]
 ```
 
-| 阶段 | 做什么 | 阶段产物 | 通过条件 |
-|---|---|---|---|
-| prepare | 放入原曲与歌词，填 `project.json`，声明实际工具能力 | `project.json`、`input/` | 用户确认准备产物 |
-| concept | 分析歌曲与歌词，写创意方向；用已有对齐工具或人工逐行复核建立时间轴 | `concept.json`、`timeline.json`（含 `evidence_path`） | `timeline.verified` 为真实复核，用户确认 |
-| storyboard | **必须按 ZY 方法库构造逐镜**，写入 `design.json`，编译并出带原曲预演 | `design.json`、`prompts/`、`animatic_preview.mp4` | 完整预演动态审查 + 用户确认 |
-| pilot | 选用户已有素材，或经授权生成代表样片，实际观察 | `pilot_review.json`、`clips/pilot.mp4` | 样片审查通过 + 用户确认 |
-| production | 每段视频入 `clips`，登记来源与费用，填选段清单与逐段审查 | `edit.json`、`clips_review.json`、`jobs.json` | 逐段审查通过 + 用户确认 |
-| delivery | 正式合成，完整有声审查，出交付报告 | `final_mv.mp4`、`delivery_report.json` | `audiovisual` 审查 + 用户确认 |
+| 步 | 你做什么 | Agent 做什么 | 产物 | 内部阶段 |
+|---|---|---|---|---|
+| 1 提供素材 | 参考视频、参考音色、人物图、原曲、歌词 | 登记素材指纹，核对实际可用能力 | `project.json`、`input/` | prepare |
+| 2 需求分析 | 说明目标、画幅、预算、交付要求 | 拆歌曲结构与歌词，写创意提案 | `concept.json`、`timeline.json` | concept |
+| 3 对标拆解 | 确认可迁移与不可迁移项 | 实际观看参考视频，记录镜头统计与节奏，转成设计约束 | `concept.json` 的 `baseline` 字段 | concept |
+| 4 全能参考提示词 | 确认 ZY 构造结果 | 按 ZY 方法库写 `design.json`（含 `omni_reference`），编译 | `design.json`、`prompts/` | storyboard |
+| 5 选模型生成 | 选定后端、预算、并发 | 出样片 → 审查 → 批量生成 → 逐段审查 | `clips/`、`edit.json` | pilot + production |
+| 6 成片交付 | 完整观看并确认 | 本地剪辑、拼接片段自带音频、出技术信息与报告 | `final_mv.mp4`、`delivery_report.json` | delivery |
+
+**第 5 步内含两个不能省的审批点**：样片审查（`pilot`）通过才允许批量生成；逐段审查通过才允许正式合成。
+
+参考音色是给视频模型的**生成条件**（提示约束），模型据此自行生成音频；交付成片默认就用片段自带的模型音频，母带不再重贴。只有当片段缺音轨或你要回退时，才把 `project.json` 的 `delivery_audio` 设为 `master`。
 
 ### 三个硬闸门
 
@@ -67,7 +71,7 @@ python scripts/mv.py report   ../我的MV
 
 完整清单和外部能力说明见 [依赖说明](DEPENDENCIES.md)。分享前执行 `python scripts/mv.py doctor --smoke`；不能把本地依赖通过理解为已经具备生成后端和视频理解能力。
 
-第一次使用请按 [新用户完整操作顺序](references/new-user.md) 执行。版本 1.0.4 提供可复跑的 ZIP 隔离安装及离线出片演练，所有模拟审查与正式项目分开。
+第一次使用请按 [新用户完整操作顺序](references/new-user.md) 执行。版本 1.0.5 提供可复跑的 ZIP 隔离安装及离线出片演练，所有模拟审查与正式项目分开。
 
 将整个目录放入接收者的技能目录，例如 `~/.codex/skills/yingliu-mv/`，刷新技能后用 `$yingliu-mv`。也可以把本目录和素材路径交给支持本地工具的 Agent，要求先读 `SKILL.md`。本次交付只创建工作区副本，不修改用户全局技能目录。
 

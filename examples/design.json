@@ -3,7 +3,11 @@
   "global": {
     "character": "人物身份以用户原图为准",
     "wardrobe": "服装按人物参考锁定",
-    "style": "有动机的光源与真实空间"
+    "style": "有动机的光源与真实空间",
+    "omni_reference": [
+      {"asset": "input/protagonist.png", "role": "人物身份与服装"},
+      {"asset": "input/reference.mp4", "role": "节奏与运镜结构"}
+    ]
   },
   "scenes": {
     "ROOM": {

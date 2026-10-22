@@ -4,7 +4,7 @@
 
 | 文件 | 字段 |
 |---|---|
-| project.json | name、audio、lyrics、width、height、fps、budget、backend、authorization、agent_capabilities |
+| project.json | name、audio、lyrics、reference_video、reference_voice、delivery_audio、width、height、fps、budget、backend、authorization、agent_capabilities |
 | state/timeline.json | duration、verified、evidence_path、segments（start/end/text）；连续覆盖全曲，verified 为真实复核声明 |
 | state/concept.json | treatment、visual_direction、music_sections |
 | state/design.json | global、scenes（ID 到设定）、shots |

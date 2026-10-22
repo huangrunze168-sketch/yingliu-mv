@@ -126,9 +126,11 @@ class Simulation:
             source_size = '360x640' if i % 2 else '640x360'
             fps = 30 if i % 2 else 24
             source = f'testsrc2=size={source_size}:rate={fps}:duration=3'
+            tone = f'sine=frequency={330 + i * 60}:sample_rate=48000:duration=3'
             self.command(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-f', 'lavfi', '-i', source,
-                          '-vf', f'hue=h={i*45}', '-an', '-c:v', 'libx264', '-pix_fmt', 'yuv420p',
-                          self.project / media], label=f'本地合成镜头{i+1}')
+                          '-f', 'lavfi', '-i', tone,
+                          '-vf', f'hue=h={i*45}', '-c:v', 'libx264', '-c:a', 'aac', '-shortest',
+                          '-pix_fmt', 'yuv420p', self.project / media], label=f'本地合成镜头{i+1}')
             self.command(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-ss', '0.2', '-i', self.project / media,
                           '-frames:v', '1', self.project / picture], label=f'提取关键帧{i+1}')
             shots.append({'id': f'SH{i+1:03}', 'scene': 'TEST', 'start': boundaries[i], 'end': boundaries[i+1],
@@ -179,11 +181,10 @@ class Simulation:
         video = next(s for s in probe['streams'] if s['codec_type'] == 'video')
         assert video['width'] == 640 and video['height'] == 360 and int(video['nb_frames']) == 192, video
         self.command(['ffmpeg', '-v', 'error', '-nostdin', '-i', final, '-f', 'null', '-'], label='全片完整解码')
-        audio_hashes = []
-        for source in (self.project / cfg['audio'], final):
-            audio_hashes.append(self.command(['ffmpeg', '-v', 'error', '-nostdin', '-i', source, '-map', '0:a:0',
-                '-c:a', 'pcm_s16le', '-f', 'hash', '-hash', 'sha256', '-'], label='解码音频哈希').strip())
-        assert audio_hashes[0] == audio_hashes[1], audio_hashes
+        # 交付音轨来自片段自带音频，不再与母带逐样本比较；只验证成片有可解码音轨。
+        audio_hash = self.command(['ffmpeg', '-v', 'error', '-nostdin', '-i', final, '-map', '0:a:0',
+            '-c:a', 'pcm_s16le', '-f', 'hash', '-hash', 'sha256', '-'], label='解码成片音频').strip()
+        assert audio_hash.startswith('SHA256=') and len(audio_hash) == 71, audio_hash
         # 清空一张预演图，旧预演与后续批准须失效；原字节恢复后可恢复状态。
         image = self.project / shots[2]['image']
         original = image.read_bytes()
@@ -194,10 +195,11 @@ class Simulation:
         result = {'status': 'passed', 'simulation': True, 'backend_calls': 0, 'archive': str(self.archive),
                   'archive_sha256': digest(self.archive), 'project': str(self.project), 'media': str(final),
                   'media_sha256': digest(final), 'seconds': float(probe['format']['duration']), 'video_frames': 192,
-                  'audio_decoded_matches_master': True, 'cli_and_tool_commands': len(self.steps),
+                  'audio_decoded_matches_master': False, 'delivery_audio': 'clip_tracks',
+                  'cli_and_tool_commands': len(self.steps),
                   'checks': ['独立目录解压安装', '非安装目录调用CLI', '依赖实测', '六阶段模拟', '相对观察路径',
                              '非整帧音乐边界', '横竖/异帧率素材', '抽帧不能替代动态审查', '选段越界提前阻断',
-                             '旧预演失效', '成片解码', '母带逐样本哈希一致', '模拟不冒充正式验收']}
+                             '旧预演失效', '成片解码', '成片音轨可解码（片段自带）', '模拟不冒充正式验收']}
         save(self.output / 'simulation-result.json', result)
         return result
 

@@ -2,7 +2,7 @@
 
 > 上游：[`popopo-99/zy-cinematic-realism`](https://github.com/popopo-99/zy-cinematic-realism)，内置版本 v2.5.0（提交 `9a3b36d1fb6a980ae9e21f74c86dd56bae443a4d`）。上游负责“画面是什么、如何被观看”；映流 MV 负责“画面何时发生、是否对口型、唱哪句、持续多久”。
 
-本文件对应映流 MV v1.0.4 的六阶段与 `state/design.json`。旧版工作流的 `story_plan.json`、`storyboard_build.py`、`prompt_build.py`、`gate_checks.py` 契约在本版中不存在，已作废；ZY 的构造结果直接写进 `design.json`，由 `compile` 展开。
+本文件对应映流 MV v1.0.5 的六阶段与 `state/design.json`。旧版工作流的 `story_plan.json`、`storyboard_build.py`、`prompt_build.py`、`gate_checks.py` 契约在本版中不存在，已作废；ZY 的构造结果直接写进 `design.json`，由 `compile` 展开。
 
 ## 一、何时读取
 

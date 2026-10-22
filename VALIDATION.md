@@ -1,6 +1,13 @@
 # 验证记录
 
-日期：2026-10-22。版本：1.0.4（在 1.0.3 基础上把 ZY 方法库改为强制环节）。
+日期：2026-10-22。版本：1.0.5（在 1.0.4 基础上按用户流程重构：六步叙述、对标拆解、全能参考、交付改用片段音频）。
+
+## 1.0.5 验证
+
+- 新增 `references/baseline-video.md`：对标视频拆解卡，结论写入 `concept.json` 的 `baseline`。
+- `project.json` 新增 `reference_video`、`reference_voice`、`delivery_audio`；`design.json` 新增可选 `global.omni_reference`（每项须含 `asset` 与 `role`，结构不合规即阻断）。
+- `render --mode final` 默认拼接片段自带音频，母带不再重贴；`delivery_audio=master` 可回退。片段缺音轨时报错。
+- 演练夹具改为生成带音轨的合成片段，覆盖新交付路径。
 
 ## 1.0.4 验证
 

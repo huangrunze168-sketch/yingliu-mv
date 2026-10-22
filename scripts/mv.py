@@ -101,8 +101,10 @@ def init(project, simulation=False):
     for folder in ('input', 'state/observations', 'clips', 'output', 'prompts'):
         (project / folder).mkdir(parents=True, exist_ok=True)
     write(project / 'project.json', {
-        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.4', 'simulation': simulation,
-        'audio': 'input/song.wav', 'lyrics': 'input/lyrics.txt', 'width': 1280, 'height': 720, 'fps': 24,
+        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.5', 'simulation': simulation,
+        'audio': 'input/song.wav', 'lyrics': 'input/lyrics.txt',
+        'reference_video': '', 'reference_voice': '', 'delivery_audio': 'generated',
+        'width': 1280, 'height': 720, 'fps': 24,
         'backend': None, 'budget': {'amount': None, 'currency': None}, 'authorization': '',
         'agent_capabilities': {'image': 'unknown', 'video': 'unknown', 'audio': 'unknown'},
     })
@@ -153,6 +155,15 @@ def design(project):
             % ZY_METHOD)
     if not isinstance(data['global'], dict) or not isinstance(data['scenes'], dict):
         raise ValueError('global/scenes 须为对象')
+    omni = data['global'].get('omni_reference')
+    if omni is not None:
+        if not isinstance(omni, list) or not omni:
+            raise ValueError('global.omni_reference 须为非空数组')
+        for item in omni:
+            if not isinstance(item, dict):
+                raise ValueError('global.omni_reference 每项须为对象')
+            if not nonempty(item.get('asset')) or not nonempty(item.get('role')):
+                raise ValueError('global.omni_reference 每项须同时声明 asset 与 role')
     windows(data['shots'], timeline(project)['duration'])
     ids = set()
     for row in data['shots']:
@@ -492,6 +503,7 @@ def render(project, mode):
     else:
         rows = [{'media': row['image'], 'in': 0, 'duration': row['end'] - row['start']} for row in design(project)['shots']]
     audio = local(project, cfg['audio'])
+    delivery_audio = (cfg.get('delivery_audio') or 'generated') if mode == 'final' else 'master'
     source_name = 'state/design.json' if mode == 'preview' else 'state/edit.json'
     planned_frames = frame_plan([row['duration'] for row in rows], cfg['fps'])
     input_paths = ['project.json', cfg['audio'], source_name, *[row['media'] for row in rows]]
@@ -504,6 +516,7 @@ def render(project, mode):
         folder = Path(temp)
         folder.resolve().relative_to((project / 'output').resolve())
         segments = []
+        keep_audio = mode == 'final' and delivery_audio == 'generated'
         for i, row in enumerate(rows):
             source = local(project, row['media'])
             length = number(row['duration'], True)
@@ -516,7 +529,16 @@ def render(project, mode):
                     raise ValueError('选段超出原始素材时长')
                 command += ['-ss', str(start), '-i', str(source)]
             segment = folder / f'{i:05}.mp4'
-            command += ['-frames:v', str(planned_frames[i]), '-an', '-vf',
+            keep_audio = mode == 'final' and delivery_audio == 'generated'
+            if keep_audio:
+                if not any(s['codec_type'] == 'audio' for s in probe(source)['streams']):
+                    raise ValueError(f'{row["media"]} 没有音频：交付用视频自带音频时选段必须有音轨；'
+                                     '要改用母带请把 project.json 的 delivery_audio 设为 master')
+                audio_flags = ['-af', f'atrim=duration={length},apad=whole_dur={length}',
+                               '-c:a', 'aac', '-ar', '48000', '-ac', '2', '-b:a', '192k']
+            else:
+                audio_flags = ['-an']
+            command += ['-frames:v', str(planned_frames[i]), *audio_flags, '-vf',
                         f"scale={cfg['width']}:{cfg['height']}:force_original_aspect_ratio=decrease,pad={cfg['width']}:{cfg['height']}:(ow-iw)/2:(oh-ih)/2,setsar=1",
                         '-r', str(cfg['fps']), '-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-pix_fmt', 'yuv420p', str(segment)]
             run(command)
@@ -528,12 +550,17 @@ def render(project, mode):
         listing.write_text('\n'.join(f"file '{p.name}'" for p in segments), encoding='utf8')
         joined = folder / 'joined.mp4'
         run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-f', 'concat', '-safe', '1', '-i', str(listing), '-c', 'copy', str(joined)])
-        codec = next(s['codec_name'] for s in probe(audio)['streams'] if s['codec_type'] == 'audio')
-        audio_codec = 'copy' if codec in ('aac', 'mp3', 'alac') else 'alac'
         candidate = folder / 'candidate.mp4'
-        run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', str(joined), '-i', str(audio),
-             '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', audio_codec, '-t', str(duration),
-             '-movflags', '+faststart', str(candidate)])
+        if keep_audio:
+            audio_codec = 'aac'
+            run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', str(joined),
+                 '-c', 'copy', '-t', str(duration), '-movflags', '+faststart', str(candidate)])
+        else:
+            codec = next(s['codec_name'] for s in probe(audio)['streams'] if s['codec_type'] == 'audio')
+            audio_codec = 'copy' if codec in ('aac', 'mp3', 'alac') else 'alac'
+            run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', str(joined), '-i', str(audio),
+                 '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', audio_codec, '-t', str(duration),
+                 '-movflags', '+faststart', str(candidate)])
         info = probe(candidate)
         if abs(float(info['format']['duration']) - duration) > max(0.1, 2 / cfg['fps']):
             raise ValueError('渲染时长核验失败，保留旧输出')
