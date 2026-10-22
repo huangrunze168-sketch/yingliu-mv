@@ -1,0 +1,312 @@
+{
+  "name": "映流MV · 飞书表驱动（模型API版）",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "trigger-schedule",
+      "name": "定时扫描",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"app_id\": \"REPLACE_FEISHU_APP_ID\",\n  \"app_secret\": \"REPLACE_FEISHU_APP_SECRET\"\n}",
+        "options": {}
+      },
+      "id": "feishu-token",
+      "name": "飞书租户Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://open.feishu.cn/open-apis/bitable/v1/apps/KelhbqVDJadSUcs0H6vcTtGdnCh/tables/tbl4I2dLkuAi3DSf/records/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('飞书租户Token').item.json.tenant_access_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"filter\": {\n    \"conjunction\": \"and\",\n    \"conditions\": [\n      { \"field_name\": \"业务步\", \"operator\": \"is\", \"value\": [\"提供素材\"] },\n      { \"field_name\": \"当前阶段用户确认\", \"operator\": \"is\", \"value\": [\"true\"] }\n    ]\n  },\n  \"page_size\": 20\n}",
+        "options": {}
+      },
+      "id": "feishu-search",
+      "name": "查待处理记录",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-record",
+              "leftValue": "={{ $json.data.items.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-has-record",
+      "name": "有待办?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [660, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.deepseek.com/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer REPLACE_LLM_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"deepseek-chat\",\n  \"response_format\": { \"type\": \"json_object\" },\n  \"messages\": [\n    { \"role\": \"system\", \"content\": \"你是映流 MV 的提示词构造器。按 ZY Cinematic Realism 方法：先定 Scene Master（具体时刻、人物动作、前中后景、实际光源、可行机位），再选 Creative Grammar，最后降级为 model-neutral 的全能参考提示词。输出 JSON：{method, shots:[{id, start, end, action, camera, lighting, cut_reason, lip_sync, omni_reference:[{asset, role}], prompt}]}。禁止改写歌词与时间窗口，禁止使用'电影感''唯美'等空泛词。\" },\n    { \"role\": \"user\", \"content\": \"=需求：{{ $json.data.items[0].fields['需求'] }}\\n画幅：{{ $json.data.items[0].fields['画幅'] }}\\n时长与歌词以项目时间轴为准，先按 4 个镜头给结构。\" }\n  ],\n  \"temperature\": 0.3\n}",
+        "options": {}
+      },
+      "id": "llm-prompts",
+      "name": "LLM 生成提示词",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, -80]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst raw = item.choices?.[0]?.message?.content ?? '{}';\nlet plan;\ntry { plan = JSON.parse(raw); } catch (e) { throw new Error('LLM 返回不是合法 JSON: ' + raw.slice(0, 200)); }\nif (plan.method !== 'zy-cinematic-realism') throw new Error('缺少 ZY 方法声明');\nconst shots = plan.shots || [];\nif (!shots.length) throw new Error('没有镜头');\nfor (const s of shots) {\n  if (!s.action || !s.camera || !s.cut_reason) throw new Error('镜头 ' + s.id + ' 缺少 action/camera/cut_reason');\n  if (typeof s.lip_sync !== 'boolean') throw new Error('镜头 ' + s.id + ' 缺少 lip_sync');\n  for (const o of (s.omni_reference || [])) {\n    if (!o.asset || !o.role) throw new Error('镜头 ' + s.id + ' 的 omni_reference 缺少 asset 或 role');\n  }\n}\nreturn [{ json: { method: plan.method, shot_count: shots.length, shots, first: shots[0] } }];"
+      },
+      "id": "validate-plan",
+      "name": "校验并解析",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1100, -80]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://modelsnexus.org/v1/video/generations",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer REPLACE_VIDEO_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"sd2.5海外版-720p\",\n  \"prompt\": \"={{ $json.first.prompt }}\",\n  \"duration\": 5\n}",
+        "options": {}
+      },
+      "id": "video-submit",
+      "name": "提交生成任务",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1320, -80]
+    },
+    {
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      },
+      "id": "wait-poll",
+      "name": "等待60秒",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1540, -80]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://modelsnexus.org/v1/videos/{{ $('提交生成任务').item.json.task_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer REPLACE_VIDEO_API_KEY"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "video-query",
+      "name": "查询任务状态",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1760, -80]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://open.feishu.cn/open-apis/bitable/v1/apps/KelhbqVDJadSUcs0H6vcTtGdnCh/tables/tbl4I2dLkuAi3DSf/records/{{ $('查待处理记录').item.json.data.items[0].record_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('飞书租户Token').item.json.tenant_access_token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"fields\": {\n    \"业务步\": \"ZY 提示词\",\n    \"当前阶段\": \"storyboard｜分镜\",\n    \"ZY方法声明\": true,\n    \"全能参考绑定\": \"={{ JSON.stringify($('校验并解析').item.json.shots.map(s => ({ shot: s.id, bindings: s.omni_reference || [] }))) }}\",\n    \"当前制作包/提示词\": \"={{ JSON.stringify($('校验并解析').item.json.shots) }}\",\n    \"生成任务与回执\": \"={{ JSON.stringify($json) }}\",\n    \"流程状态\": \"生成中\"\n  }\n}",
+        "options": {}
+      },
+      "id": "feishu-writeback",
+      "name": "回写飞书记录",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1980, -80]
+    }
+  ],
+  "connections": {
+    "定时扫描": {
+      "main": [
+        [
+          {
+            "node": "飞书租户Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "飞书租户Token": {
+      "main": [
+        [
+          {
+            "node": "查待处理记录",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "查待处理记录": {
+      "main": [
+        [
+          {
+            "node": "有待办?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "有待办?": {
+      "main": [
+        [
+          {
+            "node": "LLM 生成提示词",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "LLM 生成提示词": {
+      "main": [
+        [
+          {
+            "node": "校验并解析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "校验并解析": {
+      "main": [
+        [
+          {
+            "node": "提交生成任务",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "提交生成任务": {
+      "main": [
+        [
+          {
+            "node": "等待60秒",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "等待60秒": {
+      "main": [
+        [
+          {
+            "node": "查询任务状态",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "查询任务状态": {
+      "main": [
+        [
+          {
+            "node": "回写飞书记录",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
