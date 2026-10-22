@@ -1,0 +1,4 @@
+interface:
+  display_name: "映流 MV"
+  short_description: "使用 Agent 原生视觉的音乐 MV 工作流，支持分镜预演、样片审查、局部返修与交付"
+  default_prompt: "使用 $yingliu-mv，根据我的歌曲和参考素材制作音乐 MV，先检查能力并完成当前阶段。"

@@ -1,0 +1,10 @@
+{
+  "asset_id": "SH001",
+  "media": "input/SH001.png",
+  "observer": "填写实际观察者",
+  "scope": "image",
+  "evidence": "填写实际工具和观察到的具体内容，不能直接照抄示例",
+  "findings": [],
+  "unverified": ["motion_continuity", "lip_sync"],
+  "references": ["input/person.png"]
+}

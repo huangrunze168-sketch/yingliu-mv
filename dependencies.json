@@ -1,0 +1,25 @@
+{
+  "python": ">=3.10",
+  "python_third_party_runtime": [],
+  "bundled_files": [
+    "SKILL.md", "README.md", "agents/openai.yaml", "scripts/mv.py", "scripts/dependencies.py",
+    "references/data.md", "references/creative.md", "references/vision-generation.md", "references/delivery.md",
+    "DEPENDENCIES.md", "examples/design.json", "examples/observation.json",
+    "scripts/simulate_new_user.py", "references/new-user.md"
+  ],
+  "ffmpeg_capabilities": {
+    "encoders": ["libx264", "alac", "mjpeg", "png"],
+    "decoders": ["h264", "alac", "aac", "mp3", "pcm_s16le", "png", "mjpeg"],
+    "filters": ["scale", "pad", "setsar", "color", "sine"],
+    "demuxers": ["concat", "image2", "wav", "mov"],
+    "muxers": ["mp4", "image2"]
+  },
+  "external_capabilities": {
+    "agent_image": "参考图、母版和关键帧分析；无工具时用户观察",
+    "dynamic_review": "预演、样片、逐段与成片动态审查；用户可承担",
+    "audio_review": "歌词时间轴复核和最终有声审片；用户可承担",
+    "alignment": "已有对齐工具或有据可查的人工时间轴，不内置 ASR 模型",
+    "image_assets": "用户自带图片/草图，或已有图片生成工具",
+    "video_assets": "用户自带视频，或已有视频生成后端及适配器"
+  }
+}
