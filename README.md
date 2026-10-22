@@ -1,10 +1,16 @@
 # 映流 MV · Agent 原生视觉工作流
 
-技能名 `yingliu-mv`。本仓库已用映流 MV v1.0.2 完整替换旧版工作流，旧内容可从 Git 历史恢复。新版不依赖旧工作流，不包含 ZY 方法库、Qwen、模型权重或凭证。
+技能名 `yingliu-mv`。本仓库已用映流 MV v1.0.3 完整替换旧版工作流，旧内容可从 Git 历史恢复。新版不依赖旧工作流、Qwen、模型权重或凭证；1.0.3 接回了 ZY 方法库，以第三方组件形式按需内置在 `vendor/zy-cinematic-realism/`（见下节）。
 
-[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.2.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md)
+[下载可直接安装的 Skill ZIP](dist/yingliu-mv-v1.0.3.zip) · [依赖清单与检查](DEPENDENCIES.md) · [新用户操作顺序](references/new-user.md)
 
 优先下载上面的 Skill ZIP，解压后目录名为 `yingliu-mv`。GitHub 的 Download ZIP 是源码归档，若用于安装请把解压根目录改名为 `yingliu-mv`。离线演练的 `--archive` 参数使用 dist 中的 Skill ZIP。
+
+## ZY 方法库（可选）
+
+`vendor/zy-cinematic-realism/` 内置 ZY Cinematic Realism / 造梦师 v2.5.0，用于 storyboard / pilot 阶段的电影化视觉构造（Scene Master、Creative Grammar、连续性、结果修复）。适配规则见 [ZY 集成](references/zy-cinematic-integration.md)：它只写 `design.json` 的 `global` / `scenes` / `shots`，不改时间轴、歌词与口型。不需要时完全不读，工作流照常运行。
+
+该组件为 **CC BY-NC 4.0**（含非商业限制），署名与来源见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)；商业使用需另行取得上游授权。
 
 ## 使用
 
@@ -12,7 +18,7 @@
 
 完整清单和外部能力说明见 [依赖说明](DEPENDENCIES.md)。分享前执行 `python scripts/mv.py doctor --smoke`；不能把本地依赖通过理解为已经具备生成后端和视频理解能力。
 
-第一次使用请按 [新用户完整操作顺序](references/new-user.md) 执行。版本 1.0.2 提供可复跑的 ZIP 隔离安装及离线出片演练，所有模拟审查与正式项目分开。
+第一次使用请按 [新用户完整操作顺序](references/new-user.md) 执行。版本 1.0.3 提供可复跑的 ZIP 隔离安装及离线出片演练，所有模拟审查与正式项目分开。
 
 将整个目录放入接收者的技能目录，例如 `~/.codex/skills/yingliu-mv/`，刷新技能后用 `$yingliu-mv`。也可以把本目录和素材路径交给支持本地工具的 Agent，要求先读 `SKILL.md`。本次交付只创建工作区副本，不修改用户全局技能目录。
 

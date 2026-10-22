@@ -35,3 +35,7 @@ jobs.json 每项：id、shot_id、status、provider、cost、currency、receipt�
 先最具代表性和难度的样片，再批量。pilot_review.json 记录样片、观察记录路径、decision、evidence、unverified。逐段审查写 clips_review.json；观察依据必须绑定当前素材。没有动态观察时保留 pending，不把图片分析升级为通过。
 
 返修只改失败主因，保护已成功事实；修改 design 后重新 compile。用 pack --shot 获取公共锁、本镜和邻镜，不重写全曲。全片公共人物/服装/风格变化时扩大复核范围。
+
+## 提示词构造（可选）
+
+需要电影化构造时，按 [ZY 集成](zy-cinematic-integration.md) 把 Scene Master、Creative Grammar 与连续性方法映射到 `design.json` 的 `global` / `scenes` / `shots`；口型、歌词与切点仍以 timeline/design 为准。本包不内置供应商提示词模板，`compile` 产出的 `prompts/` 只是本地制作包，转码到真实后端时按该后端 schema 另行处理。

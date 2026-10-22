@@ -1,6 +1,16 @@
 # 验证记录
 
-日期：2026-10-22。版本：1.0.2。
+日期：2026-10-22。版本：1.0.3（在 1.0.2 基础上接回 ZY 方法库并适配 `design.json`）。
+
+## 1.0.3 验证
+
+- `python scripts/mv.py doctor --smoke`：local_ready=true，issues=0。
+- `python -X utf8 -m unittest discover -s tests -v`：12 项全部通过。
+- `vendor/zy-cinematic-realism/`：77 个文件、40 张导演卡，LICENSE / NOTICE.md / SKILL.md 完整。
+- 新增 `references/zy-cinematic-integration.md`：映射到 `design.json` 的 `global`/`scenes`/`shots`，不引用本版已不存在的旧脚本与状态文件。
+- 重新打包 `dist/yingliu-mv-v1.0.3.zip`（99 个文件）并完成 ZIP 隔离安装演练：`status=passed`，13 项检查全部通过，62 条 CLI 命令，8 秒 / 192 帧成片完整解码，母带逐样本哈希一致；安装副本含 `vendor/zy-cinematic-realism/` 77 个文件与 ZY 集成文档。
+
+## 1.0.2 验证
 
 - `python -X utf8 -m unittest discover -s tests -v`：12 项通过（含依赖缺失、路径、缓存失效、帧量化和媒体链路）。
 - skill-creator `quick_validate.py`：Skill is valid!

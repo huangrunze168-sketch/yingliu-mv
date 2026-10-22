@@ -23,8 +23,8 @@ description: 使用用户 Agent 自带视觉，从歌曲和参考素材制作音
 |---|---|---|
 | prepare | [数据格式](references/data.md) | 原曲、歌词、项目配置与素材清单 |
 | concept | [创意与分镜](references/creative.md) | 时间轴、创意提案 |
-| storyboard | 同上 | 权威设计、带原曲预演 |
-| pilot | [视觉与生成](references/vision-generation.md) | 真实观察、样片、样片审查 |
+| storyboard | [创意与分镜](references/creative.md)、[ZY 集成](references/zy-cinematic-integration.md)（需电影化构造时） | 权威设计、带原曲预演 |
+| pilot | [视觉与生成](references/vision-generation.md)、同上 ZY 集成 | 真实观察、样片、样片审查 |
 | production | 同上 | 选段清单、逐段审查与费用记录 |
 | delivery | [剪辑与交付](references/delivery.md) | 成片、技术信息、最终审查及交付报告 |
 
@@ -38,4 +38,5 @@ description: 使用用户 Agent 自带视觉，从歌曲和参考素材制作音
 - `status` 验证阶段证据版本；失效后从受影响阶段复核，不无故重做素材。改镜头时用 `pack --shot SHxxx`，包含邻镜与公共锁。
 - 正常工具输出只读摘要；完整日志保存在文件。后台等待交给后端工具/脚本，不让模型反复推理状态。
 - 工作流不提供供应商 API 适配器、ASR 模型或原生视觉模型；由用户已有工具承担这些能力。缺工具时明确交接，不伪造产物。
+- 启用 ZY 方法库时，视觉构造只按 [ZY 集成](references/zy-cinematic-integration.md) 执行；timeline 窗口、`lip_sync`、歌词原文与切点仍以 timeline/design 为准，方法库不得改写硬事实。
 - 项目结束写简短复盘，不强制修改本 Skill、跑开发测试或发版。仅开发本工作流时运行 `tests/`。

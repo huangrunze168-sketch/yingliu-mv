@@ -65,7 +65,7 @@ storyboard 对应 animatic_review.json，pilot 对应 pilot_review.json，delive
 在 Skill 目录运行（修改 ZIP 和新输出目录路径）：
 
 ```powershell
-python scripts/simulate_new_user.py --archive "../yingliu-mv-v1.0.2.zip" --output "../全新离线演练"
+python scripts/simulate_new_user.py --archive "../yingliu-mv-v1.0.3.zip" --output "../全新离线演练"
 ```
 
 输出目录必须尚不存在；脚本不删除或覆盖已有目录。它在输出目录里建立模拟用户主目录并从 ZIP 安装，在其他工作目录执行所有 CLI，覆盖六阶段、横竖/异帧率素材、非整帧切点、越界反例、失效复核、完整解码和母带音频哈希比较。

@@ -99,7 +99,7 @@ def init(project, simulation=False):
     for folder in ('input', 'state/observations', 'clips', 'output', 'prompts'):
         (project / folder).mkdir(parents=True, exist_ok=True)
     write(project / 'project.json', {
-        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.2', 'simulation': simulation,
+        'name': project.name, 'workflow': 'yingliu-mv', 'version': '1.0.3', 'simulation': simulation,
         'audio': 'input/song.wav', 'lyrics': 'input/lyrics.txt', 'width': 1280, 'height': 720, 'fps': 24,
         'backend': None, 'budget': {'amount': None, 'currency': None}, 'authorization': '',
         'agent_capabilities': {'image': 'unknown', 'video': 'unknown', 'audio': 'unknown'},
